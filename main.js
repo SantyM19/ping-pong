@@ -43,13 +43,18 @@
         this.board.bars.push(this);
         //Este es para decirle que elemento es para que canvas sepa como dibujarlo
         this.kind = "rectangle";
+        this.speed = 10;
     }
 
     self.Bar.prototype = {
         down: function() {
-
+            this.y += this.speed;
         },
         up: function() {
+            this.y -= this.speed;
+        },
+        toString: function() {
+            return "x:" + this.x + "y:" + this.y;
 
         }
     }
@@ -90,17 +95,34 @@
     }
 })();
 
-window.addEventListener("load", main);
+//Creo el tablero
+var board = new Board(800, 400);
+//Creo la barra
+var bar = new Bar(20, 100, 40, 100, board);
+var bar = new Bar(735, 100, 40, 100, board);
+var canvas = document.getElementById('canvas');
+var board_view = new BoardView(canvas, board);
+
+
+//Aca esta pendiente del keydown el cual es un evento de teclado sucede cuando se preciona una tecla
+document.addEventListener("keydown", function(ev) {
+    //Identificar la tecla
+    //console.log(ev.keyCode);
+    //aca inicializa con las teclas de arriba y la tecla hacia abajo
+    if (ev.keyCode == 38) {
+        bar.up();
+    } else if (ev.keyCode == 40) {
+        bar.down();
+    }
+    //Con esta linea podemos saber la coordenada con la que esta cambiando la barra
+    //console.log(bar.toString()) = console.log(""+bar);
+});
+
+//Aca esta pendiente de que cargue la pagina cuando carga llama el metodo main
+self.addEventListener("load", main);
 
 //Este seria el Controlador (MVC)
 function main() {
-    //Creo el tablero
-    var board = new Board(800, 400);
-    //Creo la barra
-    var bar = new Bar(20, 100, 40, 100, board);
-    var bar = new Bar(735, 100, 40, 100, board);
-    var canvas = document.getElementById('canvas');
-    var board_view = new BoardView(canvas, board);
 
     board_view.draw();
 
