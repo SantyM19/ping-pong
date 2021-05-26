@@ -21,7 +21,7 @@
     self.Board.prototype = {
         //Geter(Seran las barras)
         get elements() {
-            var elements = this.bars;
+            var elements = this.bars.map(function(bar) { return bar; });
             //Se agrega una pelota
             elements.push(this.ball);
             return elements;
@@ -32,15 +32,24 @@
 //Ahora se creara la funcion de la pelota
 (function() {
     self.Ball = function(x, y, radius, board) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.board = board;
-        this.speed_y = 0;
-        this.speed_x = 3;
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.board = board;
+            this.speed_y = 0;
+            this.speed_x = 3;
+            this.board = board;
+            this.direction = 1;
 
-        board.ball = this;
-        this.kind = "circle";
+            board.ball = this;
+            this.kind = "circle";
+        }
+        //Haremos que la pelota se mueva
+    self.Ball.prototype = {
+        move: function() {
+            this.x += (this.speed_x * this.direction);
+            this.y += (this.speed_y);
+        }
     }
 })();
 
@@ -98,8 +107,12 @@
             };
         },
         play: function() {
-            this.clean();
-            this.draw();
+            if (this.board.playing) {
+                this.clean();
+                this.draw();
+                this.board.ball.move();
+            }
+
         }
     }
 
@@ -136,26 +149,37 @@ var ball = new Ball(350, 100, 10, board);
 
 //Aca esta pendiente del keydown el cual es un evento de teclado sucede cuando se preciona una tecla
 document.addEventListener("keydown", function(ev) {
-    ev.preventDefault();
     console.log(ev.keyCode);
     //aca inicializa con las teclas de arriba y la tecla hacia abajo
     if (ev.keyCode === 38) {
+        ev.preventDefault();
         bar.up();
     } else if (ev.keyCode === 40) {
+        ev.preventDefault();
         bar.down();
     } else if (ev.keyCode === 87) {
+        ev.preventDefault();
         bar_2.up();
     } else if (ev.keyCode === 83) {
+        ev.preventDefault();
         bar_2.down();
+    } else if (ev.keyCode === 32) {
+        ev.preventDefault();
+        board.playing = !board.playing;
     }
     //Con esta linea podemos saber la coordenada con la que esta cambiando la barra
     //console.log(bar.toString()) = console.log(""+bar);
 });
 
+board_view.draw();
+
 //Aca esta pendiente de que cargue la pagina cuando carga llama el metodo main
 //self.addEventListener("load", main);
 
 window.requestAnimationFrame(controller);
+setTimeout(function() {
+    ball.direction = -1;
+}, 3000);
 //Este seria el Controlador (MVC)
 function controller() {
     board_view.play();
