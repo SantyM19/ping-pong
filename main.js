@@ -25,6 +25,36 @@ class Board{
     }
 }
 
+
+//Se generara una nueva clase (Dibuja las barras)
+class Bar{
+    constructor(x, y, width, height, board) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.board = board;
+
+        //Accedo al vector(arreglo) que iniciamos arriba y le mandamos el objeto total osea la barra 
+        this.board.bars.push(this);
+        //Este es para decirle que elemento es para que canvas sepa como dibujarlo
+        this.kind = "rectangle";
+        this.speed = 10;
+    }
+
+    down() {
+        //this.y += this.speed;
+        this.y = (this.y == 300) ? this.y : this.y + this.speed;
+    }
+    up() {
+        this.y = (this.y == 0) ? this.y : this.y - this.speed;
+    }
+    toString() {
+        return "x:" + this.x + "y:" + this.y;
+    }
+
+}
+
 class Ball {
     constructor(x, y, radius, board) {
         this.x = x;
@@ -72,34 +102,6 @@ class Ball {
 
 }
 
-//Se generara una nueva clase (Dibuja las barras)
-class Bar{
-    constructor(x, y, width, height, board) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.board = board;
-
-        //Accedo al vector(arreglo) que iniciamos arriba y le mandamos el objeto total osea la barra 
-        this.board.bars.push(this);
-        //Este es para decirle que elemento es para que canvas sepa como dibujarlo
-        this.kind = "rectangle";
-        this.speed = 10;
-    }
-
-    down() {
-        this.y += this.speed;
-    }
-    up() {
-        this.y -= this.speed;
-    }
-    toString() {
-        return "x:" + this.x + "y:" + this.y;
-    }
-
-}
-
 //Esta es la vista en el modelo (MVC)
 class BoardView{
     constructor(canvas, width, height) {
@@ -117,8 +119,6 @@ class BoardView{
     drawing() {
         for (var i = this.board.elements.length - 1; i >= 0; i--) {
             var el = this.board.elements[i];
-            console.log(el)
-            console.log(this.ctx)
             this.draw(this.ctx, el);
         };
     }
@@ -187,8 +187,8 @@ class BoardView{
 //Creo el tablero
 var board = new Board(800, 400);
 //Creo la barra
-var bar = new Bar(20, 100, 40, 100, board);
-var bar_2 = new Bar(735, 100, 40, 100, board);
+var bar = new Bar(20, 150, 30, 100, board);
+var bar_2 = new Bar(735, 150, 30, 100, board);
 var canvas = document.getElementById('canvas');
 var board_view = new BoardView(canvas, board.width, board.height);
 var ball = new Ball(350, 100, 10, board);
