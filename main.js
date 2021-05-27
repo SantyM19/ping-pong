@@ -4,17 +4,19 @@ class Board{
     //Se asigna a variables de la clase (Constructor)
     constructor(width, height){
         //Ancho
-        this.width = width;
+        this.width = width
         //Alto
-        this.height = height;
+        this.height = height
         //Si esta jugando
-        this.playing = false;
+        this.playing = false
         //Finalizo el juego
-        this.game_over = false;
+        this.game_over = false
         //Las barras
         this.bars = [];
         //La pelota
-        this.ball = null;
+        this.ball = null
+
+        this.start = false
     }
 
     get elements() {
@@ -160,6 +162,10 @@ class Ball {
 
         if(this.x > 800 || this.x < 0){
             board.game_over = true
+            this.x = 400
+            this.y = 200
+            this.speed = 3
+            document.getElementById("gameOver").style.display = "block"
             board.playing = false
         }
         else{
@@ -213,6 +219,7 @@ var ball = new Ball(400, 200, 10, board);
 
 //Aca esta pendiente del keydown el cual es un evento de teclado sucede cuando se preciona una tecla
 document.addEventListener("keydown", function(ev) {
+    
     //aca inicializa con las teclas de arriba y la tecla hacia abajo
     if (ev.keyCode === 38) {
         ev.preventDefault();
@@ -229,6 +236,25 @@ document.addEventListener("keydown", function(ev) {
     } else if (ev.keyCode === 32) {
         ev.preventDefault();
         board.playing = !board.playing;
+        if(board.playing){
+            document.getElementById("stop").style.display = "none"
+        }
+        else{
+            document.getElementById("stop").style.display = "block"
+        }
+    } else if (ev.keyCode === 13) {
+        ev.preventDefault();
+        if(board.game_over){
+            board.game_over = false
+            document.getElementById("gameOver").style.display = "none"
+            document.getElementById("start").style.display = "block"
+            board.start = false
+        }
+        if(board.start == false){
+            document.getElementById("start").style.display = "none"
+            board.start = true
+            board.playing = !board.playing;
+        }
     }
     //Con esta linea podemos saber la coordenada con la que esta cambiando la barra
     //console.log(bar.toString()) = console.log(""+bar);

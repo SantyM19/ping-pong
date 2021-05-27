@@ -4,19 +4,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ping Pong</title>
     <style>
+        body{
+            background: black;
+        }
+
         canvas {
+            display: block;
+            background: white;
+            margin: auto;
             border: solid;
             border-radius: 5px;
             border-color: dimgray;
-    }
+            }
+
+        .stop {
+            display: none;
+            background-color: black;
+            position: absolute;
+            top: 50%;
+            left: 44%;
+            border: none;
+            color:aqua;
+            padding: 16px 32px;
+            text-decoration: none;
+            opacity: 0.6 ;
+        }    
+
+        .gameOver {
+            display: none;
+            background-color: red;
+            position: absolute;
+            top: 37%;
+            left: 40%;
+            border: none;
+            color:white;
+            padding: 16px 32px;
+            text-decoration: none;
+            opacity: 0.6 ;
+            text-align: center;
+        }    
+
+        .start {
+            display: block;
+            background-color: greenyellow;
+            position: absolute;
+            top: 22%;
+            left: 37%;
+            border: none;
+            color:black;
+            padding: 16px 32px;
+            text-decoration: none;
+            opacity: 0.9 ;
+            text-align: center;
+        }    
+
     </style>
     
 </head>
 <body>
     <h1>Ping Pong</h1>
+
     <canvas id ="canvas" class ="canvas"></canvas>
+    <div class="start" id="start"> 
+        <h2>🐱‍👤 Start Game 🐱‍👤</h2> 
+        You can play this Game whit: 
+        <br> W and S for move the left Bar 
+        <br> And  ⬆  ⬇ for move the rigth Bar 
+        <h3>🚀 Enter To Start 🚀</h3> 
+     </div>
+    <div class="stop" id="stop"> PAUSE :v </div>
+    <div class = "gameOver" id = "gameOver"> 😭 Game Over Wey 😭 
+        <br> 🚀 Enter To Continue 🚀
+    </div>
+    
     <script src="main.js"></script>
 </body>
 </html>
