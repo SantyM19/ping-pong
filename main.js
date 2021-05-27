@@ -73,7 +73,7 @@ class BoardView{
         for (var i = this.board.elements.length - 1; i >= 0; i--) {
             var el = this.board.elements[i];
             this.draw(this.ctx, el);
-        };
+        }
     }
     check_collisions() {
         for (var i = this.board.bars.length - 1; i >= 0; i--) {
@@ -81,7 +81,7 @@ class BoardView{
             if (this.hit(bar, this.board.ball)) {
                 this.board.ball.collision(bar);
             }
-        };
+        }
     }
     play() {
         if (this.board.playing) {
@@ -157,8 +157,15 @@ class Ball {
 
     move (){
         this.speed += 0.005;
-        console.log(this.speed);
-        this.x += (this.speed_x * this.direction);
+
+        if(this.x > 800 || this.x < 0){
+            board.game_over = true
+            board.playing = false
+        }
+        else{
+            this.x += this.speed_x * this.direction
+        }
+
         if (this.y <  10){
             this.y = 390
         }
